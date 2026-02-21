@@ -3,144 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Venture | Where Dreams Take Shape</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <title>Dream Venture | Immersive Virtual Specialists</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@200;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         :root {
-            --primary-orange: #f3a32a;
-            --bg-dark: #121212;
-            --text-light: #e0e0e0;
-            --accent-grey: #2a2a2a;
+            --primary: #f3a32a; 
+            --bg: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --blur: 20px;
+            --magic-speed: 0.8s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
-        }
-
-        /* --- Animated Background --- */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.4;
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { background: var(--bg); color: #fff; font-family: 'Poppins', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        
+        #bg-canvas { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -1; 
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%); 
         }
 
         /* --- Navigation --- */
         nav {
-            padding: 20px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(18, 18, 18, 0.8);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
+            position: fixed; width: 94%; margin: 20px 3%; padding: 12px 35px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--glass); backdrop-filter: blur(var(--blur));
+            z-index: 1000; border: 1px solid var(--glass-border); border-radius: 100px;
+        }
+        .nav-logo { height: 28px; width: auto; }
+        .system-status { display: flex; align-items: center; gap: 8px; font-family: 'Orbitron'; font-size: 0.55rem; color: var(--primary); letter-spacing: 2px; }
+        .pulse { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(243, 163, 42, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(243, 163, 42, 0); } 100% { box-shadow: 0 0 0 0 rgba(243, 163, 42, 0); } }
+        .nav-links { display: flex; gap: 30px; position: absolute; left: 50%; transform: translateX(-50%); }
+        .nav-links a { text-decoration: none; color: #fff; font-size: 0.65rem; opacity: 0.6; font-family: 'Orbitron'; letter-spacing: 2px; transition: 0.3s; }
+        .nav-links a:hover { opacity: 1; color: var(--primary); }
+        .btn-nav { padding: 9px 20px; border-radius: 50px; font-family: 'Orbitron'; font-size: 0.6rem; background: var(--primary); color: #000; font-weight: 700; border: none; cursor: pointer; transition: 0.4s; }
+
+        /* --- Hero --- */
+        .hero { height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero-logo { width: 180px; margin-bottom: 20px; animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        .script-font { font-family: 'Great Vibes', cursive; font-size: 3.5rem; color: var(--primary); margin-bottom: -15px; }
+        .title-font { font-family: 'Orbitron'; font-size: clamp(2.2rem, 8vw, 4.5rem); font-weight: 900; letter-spacing: 12px; }
+        .tagline { letter-spacing: 15px; opacity: 0.5; font-size: 0.75rem; text-transform: uppercase; margin-top: 10px; }
+
+        /* --- Showcase --- */
+        .section { padding: 80px 10%; position: relative; }
+        .label-container { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
+        .theme-pill { width: 30px; height: 1px; background: var(--primary); }
+        .label-text { font-family: 'Orbitron'; font-size: 0.7rem; letter-spacing: 5px; color: var(--primary); }
+        .main-headline { font-size: 2.2rem; margin-bottom: 30px; font-weight: 600; }
+        
+        .industry-card { background: var(--glass); padding: 40px; border: 1px solid var(--glass-border); transition: 0.4s; }
+        .industry-card:hover { border-color: var(--primary); background: rgba(243, 163, 42, 0.02); }
+
+        .showcase-viewport { position: relative; width: 100%; height: 650px; }
+        
+        /* IMPROVED: Showcase Item Transitions */
+        .showcase-item {
+            position: absolute; background: var(--glass); border: 1px solid var(--glass-border);
+            overflow: hidden; cursor: pointer; z-index: 1;
+            will-change: width, height, top, left;
+            transition: 
+                width var(--magic-speed), 
+                height var(--magic-speed), 
+                top var(--magic-speed), 
+                left var(--magic-speed),
+                background 0.4s ease;
         }
 
-        .logo-text {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--primary-orange);
-            letter-spacing: 2px;
-            font-size: 1.5rem;
-        }
+        .item-0 { left: 0; top: 0; width: calc(25% - 15px); height: 400px; }
+        .item-1 { left: calc(25% + 5px); top: 0; width: calc(25% - 15px); height: 400px; }
+        .item-2 { left: calc(50% + 10px); top: 0; width: calc(25% - 15px); height: 400px; }
+        .item-3 { left: calc(75% + 15px); top: 0; width: calc(25% - 15px); height: 400px; }
 
-        /* --- Hero Section --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-        }
+        .showcase-item.active { top: 0 !important; left: 0 !important; width: 100% !important; height: 550px !important; z-index: 10; cursor: default; }
+        .showcase-item.shrunk { top: 570px !important; height: 80px !important; width: calc(33.33% - 10px) !important; opacity: 0.6; }
+        .pos-0 { left: 0 !important; } .pos-1 { left: calc(33.33% + 5px) !important; } .pos-2 { left: calc(66.66% + 10px) !important; }
 
-        .virtual-specialist {
-            font-family: 'Great Vibes', cursive;
-            color: white;
-            font-size: 3rem;
-            margin-bottom: -10px;
-        }
+        .showcase-item img.main-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); transition: 1s; }
+        .showcase-item:hover:not(.active) img.main-img { filter: brightness(0.9); transform: scale(1.05); }
+        .showcase-item.active img.main-img { filter: brightness(0.1) blur(15px); position: absolute; }
 
-        .main-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
-            color: var(--primary-orange);
-            text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(243, 163, 42, 0.3);
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            letter-spacing: 4px;
-            margin-top: 10px;
-            opacity: 0.8;
-        }
-
-        /* --- Services --- */
-        .section {
-            padding: 100px 10%;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .card {
-            background: var(--accent-grey);
-            padding: 40px;
-            border-radius: 15px;
-            transition: 0.3s;
-            border-bottom: 3px solid transparent;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary-orange);
-            background: #1f1f1f;
-        }
-
-        .card h3 {
-            font-family: 'Orbitron', sans-serif;
-            margin-bottom: 15px;
-            color: var(--primary-orange);
-        }
-
-        .ssm-footer {
-            text-align: center;
-            padding: 40px;
-            font-size: 0.8rem;
-            opacity: 0.6;
-            border-top: 1px solid var(--accent-grey);
-        }
-
-        .btn {
+        /* Project Cards */
+        .project-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            gap: 20px; 
             margin-top: 30px;
-            padding: 12px 30px;
-            background: var(--primary-orange);
-            color: black;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
+            width: 100%;
+        }
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            padding: 15px;
+            border-radius: 12px;
             transition: 0.3s;
+            text-align: left;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+        .project-card:hover {
+            border-color: var(--primary);
+            background: rgba(243, 163, 42, 0.15);
+            transform: translateY(-5px);
+        }
+        .project-card img {
+            width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 12px;
+        }
+        .project-card h4 { font-family: 'Orbitron'; font-size: 0.8rem; color: var(--primary); margin-bottom: 5px; }
+        .project-card p { font-size: 0.7rem; opacity: 0.95; line-height: 1.4; }
+
+        /* IMPROVED: Content Reveal Timing */
+        .active-content {
+            position: absolute; inset: 0; padding: 40px 60px; display: flex; flex-direction: column; 
+            justify-content: flex-start; opacity: 0; visibility: hidden; 
+            transition: opacity 0.5s ease 0.4s, visibility 0.5s ease 0.4s;
+            overflow-y: auto;
+        }
+        .showcase-item.active .active-content { opacity: 1; visibility: visible; }
+        
+        .item-label { 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            font-family: 'Orbitron'; font-size: 0.75rem; letter-spacing: 4px; 
+            pointer-events: none; transition: opacity 0.3s ease; 
+            text-align: center; width: 100%; text-shadow: 0 4px 10px #000; 
+        }
+        .showcase-item.active .item-label { opacity: 0; }
+
+        /* --- Team --- */
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1100px; margin: 0 auto; text-align: center; }
+        .profile-frame {
+            width: 180px; height: 230px; margin: 0 auto 15px;
+            clip-path: polygon(15% 0, 100% 0, 100% 85%, 85% 100%, 0 100%, 0 15%);
+            background: var(--glass); border: 1px solid var(--glass-border); overflow: hidden;
+        }
+        .profile-frame img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.2) brightness(0.9); transition: 0.5s; }
+        .team-card:hover .profile-frame img { filter: grayscale(0) brightness(1); }
+
+        /* --- Floating UI --- */
+        .floating-controls { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 999; }
+        .float-btn {
+            width: 50px; height: 50px; border-radius: 50%; background: var(--glass); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border); color: #fff; display: flex; justify-content: center; align-items: center;
+            text-decoration: none; font-size: 1.2rem; transition: 0.4s; cursor: pointer;
+        }
+        .float-btn:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-5px); }
+        #scrollTop { opacity: 0; visibility: hidden; }
+        #scrollTop.show { opacity: 1; visibility: visible; }
+
+        /* --- Modal --- */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px);
+            z-index: 2000; display: flex; justify-content: center; align-items: center; 
+            opacity: 0; visibility: hidden; transition: 0.5s;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-card { background: #080808; border: 1px solid var(--glass-border); padding: 50px; width: 90%; max-width: 500px; text-align: center; }
+        .inquiry-form input, .inquiry-form textarea {
+            width: 100%; background: var(--glass); border: 1px solid var(--glass-border);
+            padding: 15px; color: #fff; margin-bottom: 15px; font-family: 'Poppins'; outline: none;
         }
 
-        .btn:hover {
-            box-shadow: 0 0 20px var(--primary-orange);
-        }
+        footer { text-align: center; padding: 40px; border-top: 1px solid var(--glass-border); opacity: 0.3; font-size: 0.6rem; letter-spacing: 3px; }
     </style>
 </head>
 <body>
@@ -148,97 +181,307 @@
     <canvas id="bg-canvas"></canvas>
 
     <nav>
-        <div class="logo-text">DREAM VENTURE</div>
-        <div>SSM: 003768939-D</div>
+        <div class="logo-wrap">
+            <img src="images/dreamventurelogo.png" alt="DV" class="nav-logo">
+            <div class="system-status"><div class="pulse"></div>SYSTEM ACTIVE</div>
+        </div>
+        <div class="nav-links">
+            <a href="#capabilities">CAPABILITIES</a>
+            <a href="#team">THE TEAM</a>
+            <a href="#products">SHOWCASE</a>
+        </div>
+        <button class="btn-nav" id="openInquiry">Inquiry</button>
     </nav>
 
     <section class="hero">
-        <p class="virtual-specialist" data-aos="fade-down">Virtual Specialist</p>
-        <h1 class="main-title" data-aos="zoom-in">Dream Venture</h1>
-        <p class="tagline" data-aos="fade-up">WHERE DREAMS TAKE SHAPE</p>
-        <a href="#work" class="btn" data-aos="fade-up">EXPLORE OUR WORLD</a>
+        <img src="images/dvlogo.png" alt="Dream Venture" class="hero-logo" data-aos="fade-zoom-in">
+        <p class="script-font">Virtual Specialist</p>
+        <h1 class="title-font">DREAM VENTURE</h1>
+        <p class="tagline">Where Dreams Take Shape</p>
     </section>
 
-    <section class="section" id="work">
-        <h2 style="text-align: center; font-family: 'Orbitron';" data-aos="fade-up">OUR SPECIALTIES</h2>
-        <div class="grid">
-            <div class="card" data-aos="flip-left">
+    <section class="section" id="capabilities">
+        <div class="label-container"><div class="theme-pill"></div><span class="label-text">EXPERTISE</span></div>
+        <h2 class="main-headline">We realize your dream, virtually.</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+            <div class="industry-card" data-aos="fade-up">
+                <i class="fa-solid fa-vr-cardboard" style="color:var(--primary); font-size:2rem; margin-bottom:20px;"></i>
                 <h3>VR Solutions</h3>
-                <p>Immersive virtual reality experiences for industry, training, and education.</p>
+                <p>Architecting immersive simulation environments for high-stakes industry training and visualization.</p>
             </div>
-            <div class="card" data-aos="flip-left" data-aos-delay="100">
-                <h3>3D Game Dev</h3>
-                <p>High-fidelity 3D environments and mechanics built for the next generation of gamers.</p>
+            <div class="industry-card" data-aos="fade-up" data-aos-delay="100">
+                <i class="fa-solid fa-microchip" style="color:var(--primary); font-size:2rem; margin-bottom:20px;"></i>
+                <h3>Spatial Dev</h3>
+                <p>Developing robust 3D worlds and spatial applications with cutting-edge real-time engine performance.</p>
             </div>
-            <div class="card" data-aos="flip-left" data-aos-delay="200">
-                <h3>2D Design</h3>
-                <p>Creative 2D game art, UI/UX, and stylized animation for mobile and web.</p>
+            <div class="industry-card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fa-solid fa-graduation-cap" style="color:var(--primary); font-size:2rem; margin-bottom:20px;"></i>
+                <h3>Industry Training</h3>
+                <p>Provide Training on Unity development specifically in AR and VR.</p>
             </div>
         </div>
     </section>
 
-    <footer class="ssm-footer">
-        &copy; 2024 Dream Venture. Registered SSM No: 003768939-D
-    </footer>
+    <section class="section" id="team">
+        <div class="label-container"><div class="theme-pill"></div><span class="label-text">COLLECTIVE</span></div>
+        <h2 class="main-headline">The Minds Behind The Dream.</h2>
+        <div class="team-grid">
+            <div class="team-card" data-aos="fade-up">
+                <div class="profile-frame"><img src="images/alyadp.jpg"></div>
+                <h3 style="font-family:Orbitron; font-size:0.9rem;">ALYA BATRISYIA</h3>
+                <p style="color:var(--primary); font-size:0.6rem; letter-spacing:2px;">CEO | TRAINER | DEVELOPER</p>
+            </div>
+            <div class="team-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="profile-frame"><img src="images/nabil.jpg"></div>
+                <h3 style="font-family:Orbitron; font-size:0.9rem;">NABIL HAKIMI</h3>
+                <p style="color:var(--primary); font-size:0.6rem; letter-spacing:2px;">TRAINER | 3D ARTIST | DEVELOPER</p>
+            </div>
+            <div class="team-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="profile-frame"><img src="images/limprofile.png"></div>
+                <h3 style="font-family:Orbitron; font-size:0.9rem;">NAJMI LIM</h3>
+                <p style="color:var(--primary); font-size:0.6rem; letter-spacing:2px;">2D ARTIST | DEVELOPER </p>
+            </div>
+            <div class="team-card" data-aos="fade-up">
+                <div class="profile-frame"><img src="images/zuldp.JPEG"></div>
+                <h3 style="font-family:Orbitron; font-size:0.9rem;">ZULHAFIF</h3>
+                <p style="color:var(--primary); font-size:0.6rem; letter-spacing:2px;">TRAINER | DEVELOPER | ANIMATOR</p>
+            </div>
+            <div class="team-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="profile-frame"><img src="images/ipangdp.jpeg"></div>
+                <h3 style="font-family:Orbitron; font-size:0.9rem;">IRFAN AZAN </h3>
+                <p style="color:var(--primary); font-size:0.6rem; letter-spacing:2px;">TRAINER | DEVELOPER </p>
+            </div>
+            <div class="team-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="profile-frame"><img src="images/testp.jpg"></div>
+                <h3 style="font-family:Orbitron; font-size:0.9rem;">DR. SAMIHAH DALIM</h3>
+                <p style="color:var(--primary); font-size:0.6rem; letter-spacing:2px;">BENEFACTOR</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="products" onclick="resetMagicMove()">
+        <div class="label-container"><div class="theme-pill"></div><span class="label-text">SHOWCASE</span></div>
+        <h2 class="main-headline">Core Product Portfolio.</h2>
+        <div class="showcase-viewport" id="magicViewport">
+            <div class="showcase-item item-0" onclick="runMagicMove(event, this)">
+                <img src="images/vrdev.jpg" class="main-img">
+                <div class="item-label">VR ECOSYSTEMS</div>
+                <div class="active-content">
+                    <h3 style="font-family:Orbitron; color:var(--primary); font-size:1.5rem;">VR ECOSYSTEMS</h3>
+                    <div class="project-grid">
+                        <a href="flaimevr.php" class="project-card">
+                            <img src="images/flaimeposter.png" alt="P1">
+                            <h4>FLAIMEVR</h4>
+                            <p>virtual reality simulation that integrates firefighting operations. </p>
+                        </a>
+                        <a href="edurail.php" class="project-card">
+                            <img src="images/edurailposter.png" alt="P2">
+                            <h4>EDURAIL</h4>
+                            <p>Collaborative VR workspace for remote teams.</p>
+                        </a>
+                        <a href="flaimevr.php" class="project-card">
+                            <img src="images/flaimeposter.png" alt="P1">
+                            <h4>FLAIMEVR</h4>
+                            <p>virtual reality simulation that integrates firefighting operations.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="showcase-item item-1" onclick="runMagicMove(event, this)">
+                <img src="images/gamedev.jpeg" class="main-img">
+                <div class="item-label">INTERACTIVE GAMES</div>
+                <div class="active-content">
+                    <h3 style="font-family:Orbitron; color:var(--primary); font-size:1.5rem;">INTERACTIVE GAMES</h3>
+                    <div class="project-grid">
+                        <a href="void-walker.html" class="project-card">
+                            <img src="images/g1.jpg" alt="G1">
+                            <h4>Void Walker</h4>
+                            <p>Rhythm-based VR exploration game.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="showcase-item item-2" onclick="runMagicMove(event, this)">
+                <img src="images/training.jpg" class="main-img">
+                <div class="item-label">TRAINING SEMINAR</div>
+                <div class="active-content">
+                    <h3 style="font-family:Orbitron; color:var(--primary); font-size:1.5rem;">TRAINING MODULES</h3>
+                    <div class="project-grid">
+                        <a href="training.php" class="project-card">
+                            <img src="images/trainarvr.jpg" alt="T1">
+                            <h4>AR + VR BOOTCAMP</h4>
+                            <p>Training bootcamp to teach and train AR and VR technology</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="showcase-item item-3" onclick="runMagicMove(event, this)">
+                <img src="images/animator.jpg" class="main-img">
+                <div class="item-label">ANIMATION</div>
+                <div class="active-content">
+                    <h3 style="font-family:Orbitron; color:var(--primary); font-size:1.5rem;">3D ANIMATIONS</h3>
+                    <div class="project-grid">
+                        <a href="metahub.html" class="project-card">
+                            <img src="images/w1.jpg" alt="W1">
+                            <h4>MetaHub</h4>
+                            <p>Browser-based 3D storefront and gallery.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="floating-controls">
+        <a href="https://wa.me/YOURNUMBER" target="_blank" class="float-btn"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://instagram.com/YOURPROFILE" target="_blank" class="float-btn"><i class="fa-brands fa-instagram"></i></a>
+        <button onclick="scrollToTop()" id="scrollTop" class="float-btn"><i class="fa-solid fa-arrow-up"></i></button>
+    </div>
+
+    <div class="modal-overlay" id="inquiryModal">
+        <div class="modal-card">
+            <h3 style="margin-bottom:15px; font-family:'Orbitron';">ESTABLISH LINK</h3>
+            <form class="inquiry-form">
+                <input type="text" placeholder="NAME / ORGANIZATION">
+                <input type="email" placeholder="EMAIL">
+                <textarea rows="4" placeholder="MESSAGE"></textarea>
+                <button type="button" class="btn-nav" style="width:100%;" onclick="closeModal()">TRANSMIT</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>SSM: 003768939-D &copy; 2026 DREAM VENTURE | MALAYSIA</footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Initialize Scroll Animations
         AOS.init({ duration: 1000, once: true });
 
-        // Particle Background Logic
+        /* --- BACKGROUND: Particles --- */
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
+        let mouse = { x: null, y: null, radius: 180 };
 
-        function initCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
 
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
+                this.size = 1.2; 
+                this.vx = (Math.random() - 0.5) * 0.35; 
+                this.vy = (Math.random() - 0.5) * 0.35;
             }
             update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > canvas.width) this.x = 0;
+                this.x += this.vx;
+                this.y += this.vy;
+
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < mouse.radius) {
+                    let force = (mouse.radius - distance) / mouse.radius;
+                    this.x -= (dx / distance) * force * 1.5;
+                    this.y -= (dy / distance) * force * 1.5;
+                }
+
                 if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
+                if (this.x > canvas.width) this.x = 0;
                 if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
             }
             draw() {
-                ctx.fillStyle = '#f3a32a';
+                ctx.fillStyle = 'rgba(243, 163, 42, 0.65)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
-        function createParticles() {
-            for (let i = 0; i < 100; i++) {
-                particles.push(new Particle());
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            let particleCount = (canvas.width * canvas.height) / 8500; 
+            for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+        }
+
+        function connect() {
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    let dx = particles[a].x - particles[b].x;
+                    let dy = particles[a].y - particles[b].y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 140) { 
+                        ctx.strokeStyle = `rgba(243, 163, 42, ${0.4 * (1 - distance / 140)})`; 
+                        ctx.lineWidth = 0.6;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
             }
         }
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
+            particles.forEach(p => { p.update(); p.draw(); });
+            connect();
             requestAnimationFrame(animate);
         }
 
-        window.addEventListener('resize', initCanvas);
-        initCanvas();
-        createParticles();
-        animate();
+        window.addEventListener('resize', init);
+        init(); animate();
+
+        /* --- IMPROVED UI Logic --- */
+        function runMagicMove(event, el) {
+            // Stop if clicking a project link inside the active card
+            if (event.target.closest('.project-card')) return;
+            
+            event.stopPropagation();
+            
+            // If already active, don't re-trigger
+            if (el.classList.contains('active')) return;
+
+            const allItems = document.querySelectorAll('.showcase-item');
+            let sCount = 0;
+
+            allItems.forEach(item => {
+                // Clear state
+                item.classList.remove('active', 'shrunk', 'pos-0', 'pos-1', 'pos-2');
+                
+                if (item === el) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.add('shrunk', `pos-${sCount}`);
+                    sCount++;
+                }
+            });
+        }
+
+        function resetMagicMove() {
+            document.querySelectorAll('.showcase-item').forEach(item => {
+                item.classList.remove('active', 'shrunk', 'pos-0', 'pos-1', 'pos-2');
+            });
+        }
+
+        const modal = document.getElementById('inquiryModal');
+        document.getElementById('openInquiry').onclick = () => modal.classList.add('active');
+        function closeModal() { modal.classList.remove('active'); }
+        window.onclick = (e) => { if (e.target == modal) closeModal(); };
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.onscroll = () => {
+            if (window.pageYOffset > 400) scrollTopBtn.classList.add('show');
+            else scrollTopBtn.classList.remove('show');
+        };
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
     </script>
 </body>
 </html>
