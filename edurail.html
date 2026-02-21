@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDURAIL | XR TRAIN Simulation</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@200;400;600&family=Bebas+Neue&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #f3a32a;
+            --fire-red: #e63946; 
+            --bg: #050505;
+            --award-gold: #ffd700;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --blur: 20px;
+        }
+
+        @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+        * { margin:0; padding:0; box-sizing: border-box; scroll-behavior: smooth; }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--bg); 
+            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('images/edurailbg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff; 
+            overflow-x: hidden;
+            animation: pageFadeIn 1.5s ease;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed; width: 94%; margin: 20px 3%; padding: 12px 35px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--glass); backdrop-filter: blur(var(--blur));
+            z-index: 1000; border: 1px solid var(--glass-border); border-radius: 100px;
+        }
+        .nav-logo { height: 26px; width: auto; }
+        .system-status { display: flex; align-items: center; gap: 8px; font-family: 'Orbitron'; font-size: 0.55rem; color: var(--primary); letter-spacing: 2px; }
+        .pulse { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(243, 163, 42, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(243, 163, 42, 0); } 100% { box-shadow: 0 0 0 0 rgba(243, 163, 42, 0); } }
+        
+        .nav-links { display: flex; gap: 30px; position: absolute; left: 50%; transform: translateX(-50%); }
+        .nav-links a { text-decoration: none; color: #fff; font-size: 0.65rem; opacity: 0.6; font-family: 'Orbitron'; letter-spacing: 2px; transition: 0.3s; }
+        .nav-links a:hover { opacity: 1; color: var(--primary); }
+        .btn-nav { padding: 9px 20px; border-radius: 50px; font-family: 'Orbitron'; font-size: 0.6rem; background: var(--primary); color: #000; font-weight: 700; border: none; cursor: pointer; text-decoration: none; }
+
+        /* --- HERO --- */
+        .hero { 
+            height: auto;
+            min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; 
+            padding-top: 80px;
+            padding-bottom: 60px;
+        }
+        .hero-logo { 
+            width: 90%; 
+            max-width: 500px;
+            animation: float 6s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        
+        .script-font { font-family: 'Great Vibes', cursive; font-size: 2.6rem; color: var(--primary); margin-bottom: -10px; }
+        .dev-title { font-family: 'Orbitron'; font-size: 1.3rem; letter-spacing: 10px; color: #fff; font-weight: 900; margin-top: 5px; }
+        .dev-line { width: 50px; height: 1px; background: var(--primary); margin: 15px auto; opacity: 0.6; }
+
+        .developer-profiles {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 35px;
+            max-width: 1100px;
+        }
+        .dev-profile-card { text-align: center; opacity: 0; transition: opacity 0.5s ease-out; }
+        .dev-profile-card.aos-animate { opacity: 1; }
+        .profile-frame {
+            width: 160px;
+            height: 200px;
+            margin: 0 auto 12px;
+            clip-path: polygon(15% 0, 100% 0, 100% 85%, 85% 100%, 0 100%, 0 15%);
+            background: var(--glass); border: 1px solid var(--glass-border); overflow: hidden;
+        }
+        .profile-frame img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            filter: grayscale(0.2) brightness(0.9); transition: 0.5s; 
+        }
+        .dev-profile-card:hover .profile-frame img { filter: grayscale(0) brightness(1); }
+        .dev-profile-card h3 { font-family: 'Orbitron'; font-size: 0.85rem; margin-bottom: 3px; letter-spacing: 1px; }
+
+        /* --- SECTIONS --- */
+        .section { padding: 80px 10% 40px 10%; position: relative; }
+        .section-subtitle { 
+            display: block; font-family: 'Orbitron'; font-size: 0.65rem; 
+            color: var(--primary); letter-spacing: 4px; margin-bottom: 10px; opacity: 0.8;
+        }
+
+        .award-display {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+            background: rgba(255,255,255,0.02); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border); padding: 40px;
+        }
+        .award-info h2 { font-family: 'Bebas Neue'; font-size: 4.5rem; color: var(--award-gold); line-height: 0.9; }
+
+        .video-container {
+            width: 100%; max-width: 1000px; margin: 40px auto;
+            background: var(--glass); padding: 15px; border: 1px solid var(--glass-border); border-radius: 4px;
+        }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        .pipe-card {
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border); padding: 30px; margin-bottom: 20px;
+            display: grid; grid-template-columns: 1fr 1.2fr; gap: 30px; align-items: center;
+        }
+        .pipe-card h3 { font-family: 'Orbitron'; color: var(--primary); font-size: 1.1rem; margin-bottom: 10px; }
+        .pipe-card img { width: 100%; border-radius: 4px; border: 1px solid var(--glass-border); }
+
+        /* --- GALLERY --- */
+        .gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 15px; 
+            margin-top: 20px;
+        }
+        .gallery-item { 
+            border: 1px solid var(--glass-border); 
+            overflow: hidden; 
+            height: 200px; 
+            background: var(--glass);
+        }
+        .gallery-item img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: 0.6s; 
+            opacity: 0.8;
+        }
+        .gallery-item:hover img { 
+            transform: scale(1.08); 
+            opacity: 1;
+        }
+
+        footer { text-align: center; padding: 50px; opacity: 0.3; font-size: 0.65rem; font-family: 'Orbitron'; letter-spacing: 3px; }
+        #bg-canvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+
+        @media (max-width: 900px) {
+            .award-display, .pipe-card { grid-template-columns: 1fr; gap: 20px; }
+            .nav-links { display: none; }
+            .hero-logo { max-width: 350px; }
+            .profile-frame { width: 120px; height: 150px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo-wrap">
+            <img src="images/dreamventurelogo.png" alt="DV" class="nav-logo">
+            <div class="system-status"><div class="pulse"></div>SYSTEM ACTIVE</div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">DASHBOARD</a>
+            <a href="#about">ACHIEVEMENTS</a>
+            <a href="#pipeline">PROCESS</a>
+            <a href="#perspective">PERSPECTIVE</a>
+        </div>
+        <a href="home.php" class="btn-nav">HOME</a>
+    </nav>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <section class="hero">
+        <div data-aos="zoom-in" style="display: flex; flex-direction: column; align-items: center;">
+            <img src="images/logoedurail.png" alt="EDURAIL" class="hero-logo">
+            <div style="margin-top: 20px;">
+                <p class="script-font">Developed by</p>
+                <h2 class="dev-title">DREAM VENTURE</h2>
+                <div class="dev-line"></div>
+            </div>
+
+            <div class="developer-profiles">
+                <div class="dev-profile-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="profile-frame"><img src="images/nabil.jpg" alt="Nabil Hakimi"></div>
+                    <h3>NABIL HAKIMI</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <span class="section-subtitle" data-aos="fade-up">Network Validated</span>
+        <div class="award-display" data-aos="fade-up">
+            <div style="border: 1px solid var(--award-gold); padding: 8px; background: #000;">
+                <img src="images/risenabil.jpg" style="width:100%; display: block;">
+            </div>
+            <div class="award-info">
+                <h2>GOLD AWARD<br><span style="color:#fff">RISE 25</span></h2>
+                <p style="margin: 15px 0; opacity: 0.8; font-size: 0.9rem;">Recognized for technical excellence in high-fidelity XR architecture and simulation logic.</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 80px;">
+            <span class="section-subtitle" data-aos="fade-up" style="text-align: center;">Project Intelligence</span>
+            <div class="video-container" data-aos="zoom-in">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/RyI5T8c0ZgU" title="EDURAIL TEASER" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="pipeline">
+        <span class="section-subtitle" data-aos="fade-up">Technical Stack</span>
+        <div class="pipe-card" data-aos="fade-right">
+            <div>
+                <h3>01 // GEOMETRY</h3>
+                <p>Industrial modeling precision. Optimized topology for zero-latency XR performance.</p>
+            </div>
+            <img src="images/blenderfvr.png">
+        </div>
+        <div class="pipe-card" data-aos="fade-left">
+            <div>
+                <h3>02 // INTERACTION</h3>
+                <p>Advanced physics synchronization and intelligent hazard response.</p>
+            </div>
+            <img src="images/unityfvr.png">
+        </div>
+    </section>
+
+    <section class="section" id="perspective">
+        <span class="section-subtitle" data-aos="fade-up">Operational Perspective</span>
+        <div class="gallery-grid">
+            <div class="gallery-item" data-aos="fade-up" data-aos-delay="0"><img src="images/fvr1.png"></div>
+            <div class="gallery-item" data-aos="fade-up" data-aos-delay="100"><img src="images/fvr2.png"></div>
+            <div class="gallery-item" data-aos="fade-up" data-aos-delay="200"><img src="images/fvr3.png"></div>
+            <div class="gallery-item" data-aos="fade-up" data-aos-delay="300"><img src="images/fvr4.png"></div>
+            <div class="gallery-item" data-aos="fade-up" data-aos-delay="0"><img src="images/fvr5.png"></div>
+            <div class="gallery-item" data-aos="fade-up" data-aos-delay="100"><img src="images/fvr6.png"></div>
+            <div class="gallery-item" data-aos="fade-up" data-aos-delay="200"><img src="images/fvr7.png"></div>
+            <div class="gallery-item" data-aos="fade-up" data-aos-delay="300"><img src="images/fvr8.png"></div>
+        </div>
+    </section>
+
+    <footer>&copy; 2026 DREAM VENTURE | EDURAIL TACTICAL PROTOCOL</footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 50 });
+
+        /* --- UPDATED PARTICLE SYSTEM: DATA STREAMS --- */
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        class DataStream {
+            constructor() { this.reset(); }
+            reset() {
+                // Spawn off-screen to the right
+                this.x = Math.random() * canvas.width + canvas.width;
+                this.y = Math.random() * canvas.height;
+                // Length of the streak
+                this.w = Math.random() * 100 + 50; 
+                this.h = 1; // Thin line
+                // Velocity: moving left (negative x)
+                this.vx = -(Math.random() * 8 + 4); 
+                this.alpha = Math.random() * 0.4 + 0.1;
+            }
+            update() {
+                this.x += this.vx;
+                // If the entire line has passed the left edge
+                if(this.x < -this.w) this.reset();
+            }
+            draw() {
+                // Gradient for the streak to make it look like motion blur
+                let grad = ctx.createLinearGradient(this.x, 0, this.x + this.w, 0);
+                grad.addColorStop(0, `rgba(243, 163, 42, ${this.alpha})`);
+                grad.addColorStop(1, `rgba(243, 163, 42, 0)`);
+                
+                ctx.fillStyle = grad;
+                ctx.fillRect(this.x, this.y, this.w, this.h);
+            }
+        }
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = Array.from({length: 40}, () => new DataStream());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', init);
+        init(); animate();
+    </script>
+</body>
+</html>
