@@ -31,15 +31,34 @@
             display: flex;
             flex-direction: column;
             animation: globalFade 1.2s ease-out forwards;
+            position: relative; /* Needed for canvas positioning */
         }
 
-        /* --- Simple Nav for Registration Page --- */
+        /* --- Animated Canvas Background --- */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1; /* Sits behind everything */
+            pointer-events: none;
+        }
+
+        nav, main, footer {
+            position: relative;
+            z-index: 2; /* Ensures content is above the canvas */
+        }
+
+        /* --- Navigation --- */
         nav {
             padding: 20px 8%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--glass-border);
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(10px);
         }
         .back-btn {
             color: #fff;
@@ -83,17 +102,17 @@
         .form-wrapper {
             width: 100%;
             max-width: 800px;
-            background: #fff; /* Jotforms usually look best on white, or adjust Jotform theme to transparent */
+            background: #fff; 
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             border: 1px solid var(--glass-border);
-            min-height: 800px; /* Adjust based on your form height */
+            min-height: 800px; 
         }
 
         iframe {
             width: 100%;
-            height: 1000px; /* Matches the content height of your form */
+            height: 1000px; 
             border: none;
         }
 
@@ -109,6 +128,9 @@
 </head>
 <body>
 
+    <!-- Background Canvas Container -->
+    <div id="particles-js"></div>
+
     <nav>
         <div style="font-family:'Orbitron'; font-weight:900; color:var(--primary);">DREAM VENTURE</div>
         <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> RETURN HOME</a>
@@ -121,7 +143,6 @@
         </div>
 
         <div class="form-wrapper" data-aos="fade-up">
-            <!-- EMBEDDED JOTFORM -->
             <iframe
                 id="JotFormIFrame-261253405509049"
                 title="Registration Form"
@@ -139,9 +160,31 @@
         SSM: 003768939-D &copy; 2026 DREAM VENTURE ACADEMY
     </footer>
 
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // Initialize Animations
         AOS.init({ duration: 1000, once: true });
+
+        // Initialize Particles
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#f3a32a" }, // Matching your primary gold/orange
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.2, "random": false },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#f3a32a", "opacity": 0.1, "width": 1 },
+                "move": { "enable": true, "speed": 1.5, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false } },
+                "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } } }
+            },
+            "retina_detect": true
+        });
     </script>
 </body>
 </html>
