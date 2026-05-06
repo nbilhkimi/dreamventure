@@ -66,7 +66,6 @@
 
         .showcase-viewport { position: relative; width: 100%; height: 650px; }
         
-        /* IMPROVED: Showcase Item Transitions */
         .showcase-item {
             position: absolute; background: var(--glass); border: 1px solid var(--glass-border);
             overflow: hidden; cursor: pointer; z-index: 1;
@@ -79,14 +78,17 @@
                 background 0.4s ease;
         }
 
-        .item-0 { left: 0; top: 0; width: calc(25% - 15px); height: 400px; }
-        .item-1 { left: calc(25% + 5px); top: 0; width: calc(25% - 15px); height: 400px; }
-        .item-2 { left: calc(50% + 10px); top: 0; width: calc(25% - 15px); height: 400px; }
-        .item-3 { left: calc(75% + 15px); top: 0; width: calc(25% - 15px); height: 400px; }
+        /* FIX: Adjusted for 3 items to fill container width perfectly */
+        .item-0 { left: 0; top: 0; width: calc(33.33% - 10px); height: 400px; }
+        .item-1 { left: calc(33.33% + 5px); top: 0; width: calc(33.33% - 10px); height: 400px; }
+        .item-2 { left: calc(66.66% + 10px); top: 0; width: calc(33.33% - 10px); height: 400px; }
 
         .showcase-item.active { top: 0 !important; left: 0 !important; width: 100% !important; height: 550px !important; z-index: 10; cursor: default; }
-        .showcase-item.shrunk { top: 570px !important; height: 80px !important; width: calc(33.33% - 10px) !important; opacity: 0.6; }
-        .pos-0 { left: 0 !important; } .pos-1 { left: calc(33.33% + 5px) !important; } .pos-2 { left: calc(66.66% + 10px) !important; }
+        
+        /* FIX: Shrunk items now split 50/50 to fill the bottom row to the right */
+        .showcase-item.shrunk { top: 570px !important; height: 80px !important; width: calc(50% - 10px) !important; opacity: 0.6; }
+        .pos-0 { left: 0 !important; } 
+        .pos-1 { left: calc(50% + 10px) !important; }
 
         .showcase-item img.main-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); transition: 1s; }
         .showcase-item:hover:not(.active) img.main-img { filter: brightness(0.9); transform: scale(1.05); }
@@ -122,7 +124,6 @@
         .project-card h4 { font-family: 'Orbitron'; font-size: 0.8rem; color: var(--primary); margin-bottom: 5px; }
         .project-card p { font-size: 0.7rem; opacity: 0.95; line-height: 1.4; }
 
-        /* IMPROVED: Content Reveal Timing */
         .active-content {
             position: absolute; inset: 0; padding: 40px 60px; display: flex; flex-direction: column; 
             justify-content: flex-start; opacity: 0; visibility: hidden; 
@@ -315,12 +316,12 @@
                             <p>Training bootcamp to teach and train VR technology</p>
                         </a>
                         <a href="null" class="project-card">
-                            <img src="images/trainarvr.jpg" alt="T1">
+                            <img src="images/artrain.jpeg" alt="T1">
                             <h4>AR BOOTCAMP</h4>
                             <p>Training bootcamp to teach and train AR technology</p>
                         </a>
                         <a href="training.html" class="project-card">
-                            <img src="images/trainarvr.jpg" alt="T1">
+                            <img src="images/unitytrain.jpg" alt="T1">
                             <h4>UNITY COURSE</h4>
                             <p>Training bootcamp to teach and train basic to Unity</p>
                         </a>
@@ -435,23 +436,17 @@
         window.addEventListener('resize', init);
         init(); animate();
 
-        /* --- IMPROVED UI Logic --- */
+        /* --- UI Logic --- */
         function runMagicMove(event, el) {
-            // Stop if clicking a project link inside the active card
             if (event.target.closest('.project-card')) return;
-            
             event.stopPropagation();
-            
-            // If already active, don't re-trigger
             if (el.classList.contains('active')) return;
 
             const allItems = document.querySelectorAll('.showcase-item');
             let sCount = 0;
 
             allItems.forEach(item => {
-                // Clear state
                 item.classList.remove('active', 'shrunk', 'pos-0', 'pos-1', 'pos-2');
-                
                 if (item === el) {
                     item.classList.add('active');
                 } else {
@@ -471,6 +466,7 @@
         document.getElementById('openInquiry').onclick = () => modal.classList.add('active');
         function closeModal() { modal.classList.remove('active'); }
         window.onclick = (e) => { if (e.target == modal) closeModal(); };
+        
         const scrollTopBtn = document.getElementById('scrollTop');
         window.onscroll = () => {
             if (window.pageYOffset > 400) scrollTopBtn.classList.add('show');
