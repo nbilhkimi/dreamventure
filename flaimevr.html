@@ -3,335 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FLAIMEVR | Tactical XR Simulation</title>
-    
+    <title>VR Training | Dream Venture Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@200;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@200;400;600&family=Bebas+Neue&family=Great+Vibes&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
     <style>
         :root {
-            --primary: #f3a32a;
-            --fire-red: #e63946; 
+            --primary: #f3a32a; 
             --bg: #050505;
-            --award-gold: #ffd700;
             --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.08);
             --blur: 20px;
         }
 
-        /* --- ANIMATIONS --- */
-        @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-
-        * { margin:0; padding:0; box-sizing: border-box; scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { background: var(--bg); color: #fff; font-family: 'Poppins', sans-serif; overflow-x: hidden; }
         
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background-color: var(--bg); 
-            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('images/flaimebg.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #fff; 
-            overflow-x: hidden;
-            animation: pageFadeIn 1.5s ease;
-        }
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 50% 50%, #1a1208 0%, #000000 100%); }
 
-        /* --- NAVIGATION --- */
+        /* --- Navigation --- */
         nav {
-            position: fixed; width: 94%; margin: 20px 3%; padding: 12px 35px;
+            position: fixed; top: 0; width: 100%; padding: 25px 8%;
             display: flex; justify-content: space-between; align-items: center;
-            background: var(--glass); backdrop-filter: blur(var(--blur));
-            z-index: 1000; border: 1px solid var(--glass-border); border-radius: 100px;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(15px);
+            z-index: 2000; border-bottom: 1px solid var(--glass-border);
         }
-        .nav-logo { height: 26px; width: auto; }
-        .system-status { display: flex; align-items: center; gap: 8px; font-family: 'Orbitron'; font-size: 0.55rem; color: var(--primary); letter-spacing: 2px; }
-        .pulse { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(243, 163, 42, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(243, 163, 42, 0); } 100% { box-shadow: 0 0 0 0 rgba(243, 163, 42, 0); } }
-        
-        .nav-links { display: flex; gap: 30px; position: absolute; left: 50%; transform: translateX(-50%); }
-        .nav-links a { text-decoration: none; color: #fff; font-size: 0.65rem; opacity: 0.6; font-family: 'Orbitron'; letter-spacing: 2px; transition: 0.3s; }
+        .nav-logo { height: 35px; }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { text-decoration: none; color: #fff; font-size: 0.7rem; font-family: 'Orbitron'; letter-spacing: 2px; opacity: 0.6; transition: 0.3s; }
         .nav-links a:hover { opacity: 1; color: var(--primary); }
-        .btn-nav { padding: 9px 20px; border-radius: 50px; font-family: 'Orbitron'; font-size: 0.6rem; background: var(--primary); color: #000; font-weight: 700; border: none; cursor: pointer; text-decoration: none; }
 
-        /* --- HERO & SIZING --- */
-        .hero { 
-            height: auto;
-            min-height: 100vh;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; 
-            padding-top: 80px;
-            padding-bottom: 60px;
-        }
-        .hero-logo { 
-            width: 90%; 
-            max-width: 600px;
-            filter: drop-shadow(0 0 30px rgba(243, 163, 42, 0.3)); 
-            animation: float 6s ease-in-out infinite;
-            margin-bottom: 20px;
-        }
+        /* --- Hero --- */
+        .hero { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 5%; }
+        .title-font { font-family: 'Orbitron'; font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 900; letter-spacing: 12px; margin-top: 15px; text-transform: uppercase; }
+        .script-font { font-family: 'Great Vibes', cursive; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--primary); }
+
+        /* --- Training Tiers Layout --- */
+        .section { padding: 120px 10%; max-width: 1600px; margin: 0 auto; }
+        .tier-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 60px; }
         
-        .script-font { font-family: 'Great Vibes', cursive; font-size: 2.6rem; color: var(--primary); margin-bottom: -10px; }
-        .dev-title { font-family: 'Orbitron'; font-size: 1.3rem; letter-spacing: 10px; color: #fff; font-weight: 900; margin-top: 5px; }
-        .dev-line { width: 50px; height: 1px; background: var(--primary); margin: 15px auto; opacity: 0.6; }
+        .tier-card {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            padding: 50px 40px; position: relative; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column; min-height: 480px;
+        }
+        .tier-card:hover { border-color: var(--primary); transform: translateY(-15px); background: rgba(243, 163, 42, 0.04); }
+        .tier-card.active { border-color: var(--primary); box-shadow: 0 15px 50px rgba(243, 163, 42, 0.15); background: rgba(243, 163, 42, 0.02); }
+        
+        .level-label { font-family: 'Orbitron'; font-size: 0.65rem; color: var(--primary); letter-spacing: 4px; margin-bottom: 15px; display: block; font-weight: 700; }
+        .tier-title { font-family: 'Orbitron'; font-size: 1.8rem; margin-bottom: 35px; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; letter-spacing: 2px; }
+        
+        .syllabus-list { list-style: none; flex-grow: 1; display: flex; flex-direction: column; gap: 20px; }
+        .syllabus-list li { font-size: 0.9rem; opacity: 0.7; display: flex; align-items: flex-start; gap: 15px; font-weight: 300; line-height: 1.5; }
+        .syllabus-list li i { color: var(--primary); margin-top: 4px; font-size: 0.8rem; flex-shrink: 0; }
 
-        .developer-profiles {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 35px;
-            max-width: 1100px;
+        /* --- Voucher Section --- */
+        .voucher-container { padding: 0 10% 120px 10%; max-width: 1600px; margin: 0 auto; }
+        .voucher-section { 
+            background: linear-gradient(135deg, #0a0a0a 0%, #151515 100%); 
+            border: 1px solid var(--glass-border); padding: 80px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+            position: relative; overflow: hidden;
         }
-        .dev-profile-card { text-align: center; opacity: 0; transition: opacity 0.5s ease-out; }
-        .dev-profile-card.aos-animate { opacity: 1; }
-        .profile-frame {
-            width: 160px;
-            height: 200px;
-            margin: 0 auto 12px;
-            clip-path: polygon(15% 0, 100% 0, 100% 85%, 85% 100%, 0 100%, 0 15%);
-            background: var(--glass); border: 1px solid var(--glass-border); overflow: hidden;
+        .voucher-section::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--primary); }
+        
+        .voucher-text h2 { font-family: 'Orbitron'; font-size: 2.5rem; color: var(--primary); margin-bottom: 25px; letter-spacing: 3px; }
+        .voucher-text p { font-weight: 200; opacity: 0.7; line-height: 2; font-size: 1rem; }
+        
+        .voucher-form { display: grid; gap: 20px; }
+        .voucher-form input {
+            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);
+            padding: 20px 25px; color: #fff; font-family: 'Poppins'; outline: none; transition: 0.3s;
+            font-size: 0.9rem;
         }
-        .profile-frame img { 
-            width: 100%; height: 100%; object-fit: cover; 
-            filter: grayscale(0.2) brightness(0.9); transition: 0.5s; 
+        .voucher-form input:focus { border-color: var(--primary); background: rgba(255,255,255,0.07); }
+        
+        .btn-submit {
+            background: var(--primary); color: #000; border: none; padding: 22px;
+            font-family: 'Orbitron'; font-weight: 900; font-size: 0.85rem; letter-spacing: 4px;
+            cursor: pointer; transition: 0.4s; margin-top: 10px;
         }
-        .dev-profile-card:hover .profile-frame img { filter: grayscale(0) brightness(1); }
-        .dev-profile-card h3 { font-family: 'Orbitron'; font-size: 0.85rem; margin-bottom: 3px; letter-spacing: 1px; }
+        .btn-submit:hover { letter-spacing: 6px; background: #fff; }
 
-        /* --- SECTIONS --- */
-        .section { padding: 80px 10% 40px 10%; position: relative; }
-        .section-subtitle { 
-            display: block; font-family: 'Orbitron'; font-size: 0.65rem; 
-            color: var(--primary); letter-spacing: 4px; margin-bottom: 10px; opacity: 0.8;
-        }
+        footer { text-align: center; padding: 60px; border-top: 1px solid var(--glass-border); font-family: 'Orbitron'; font-size: 0.65rem; opacity: 0.4; letter-spacing: 4px; }
 
-        .award-display {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
-            background: rgba(255,255,255,0.02); backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border); padding: 40px;
+        @media (max-width: 1200px) {
+            .tier-container { grid-template-columns: 1fr 1fr; }
+            .tier-card:last-child { grid-column: span 2; }
         }
-        .award-info h2 { font-family: 'Bebas Neue'; font-size: 4.5rem; color: var(--award-gold); line-height: 0.9; }
-
-        .video-container {
-            width: 100%; max-width: 1000px; margin: 40px auto;
-            background: var(--glass); padding: 15px; border: 1px solid var(--glass-border); border-radius: 4px;
-        }
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
-        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-
-        .pipe-card {
-            background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border); padding: 30px; margin-bottom: 20px;
-            display: grid; grid-template-columns: 1fr 1.2fr; gap: 30px; align-items: center;
-        }
-        .pipe-card h3 { font-family: 'Orbitron'; color: var(--primary); font-size: 1.1rem; margin-bottom: 10px; }
-        .pipe-card img { width: 100%; border-radius: 4px; border: 1px solid var(--glass-border); }
-
-        /* --- GALLERY SECTION --- */
-        .gallery-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-            gap: 15px; 
-            margin-top: 20px;
-        }
-        .gallery-item { 
-            border: 1px solid var(--glass-border); 
-            overflow: hidden; 
-            height: 200px; 
-            background: var(--glass);
-        }
-        .gallery-item img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            transition: 0.6s; 
-            opacity: 0.9;
-        }
-        .gallery-item:hover img { 
-            transform: scale(1.08); 
-            opacity: 1;
-        }
-
-        footer { text-align: center; padding: 50px; opacity: 0.3; font-size: 0.65rem; font-family: 'Orbitron'; letter-spacing: 3px; }
-        #bg-canvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
         @media (max-width: 900px) {
-            .award-display, .pipe-card { grid-template-columns: 1fr; gap: 20px; }
+            .tier-container, .voucher-section { grid-template-columns: 1fr; gap: 40px; }
+            .voucher-section { padding: 40px; }
+            .tier-card:last-child { grid-column: span 1; }
             .nav-links { display: none; }
-            .hero-logo { max-width: 350px; }
-            .profile-frame { width: 120px; height: 150px; }
+            .section { padding: 80px 5%; }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo-wrap">
-            <img src="images/dreamventurelogo.png" alt="DV" class="nav-logo">
-            <div class="system-status"><div class="pulse"></div>SYSTEM ACTIVE</div>
-        </div>
-        <div class="nav-links">
-            <a href="index.html">DASHBOARD</a>
-            <a href="#about">ACHIEVEMENTS</a>
-            <a href="#pipeline">PROCESS</a>
-            <a href="#perspective">PERSPECTIVE</a>
-        </div>
-        <a href="index.html" class="btn-nav">HOME</a>
-    </nav>
-
     <canvas id="bg-canvas"></canvas>
 
-    <section class="hero">
-        <div data-aos="zoom-in" style="display: flex; flex-direction: column; align-items: center;">
-            <img src="images/flaimelogo.png" alt="FLAIMEVR" class="hero-logo">
-            <div style="margin-top: 20px;">
-                <p class="script-font">Developed by</p>
-                <h2 class="dev-title">DREAM VENTURE</h2>
-                <div class="dev-line"></div>
+    <nav>
+        <img src="images/dreamventurelogo.png" alt="DV" class="nav-logo">
+        <div class="nav-links">
+            <a href="#levels">COURSES</a>
+            <a href="#voucher">VOUCHER</a>
+            <a href="#">SYSTEM</a>
+        </div>
+        <div style="font-family:'Orbitron'; font-size:0.6rem; color:var(--primary); letter-spacing: 2px;">
+            <i class="fa-solid fa-circle-dot" style="margin-right: 8px;"></i>VR_CORE_v4.0
+        </div>
+    </nav>
+
+    <header class="hero">
+        <p class="script-font" data-aos="fade-up">Professional</p>
+        <h1 class="title-font" data-aos="zoom-out" data-aos-delay="200">VR ARCHITECTURE</h1>
+        <p style="font-family:'Orbitron'; letter-spacing:12px; opacity:0.4; font-size:0.75rem; margin-top:25px;">EST. 2026 / SPATIAL PROTOCOL</p>
+    </header>
+
+    <section class="section" id="levels">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <span style="font-family:'Orbitron'; color:var(--primary); font-size:0.8rem; letter-spacing:8px; font-weight: 700;">TRAINING MODULES</span>
+        </div>
+
+        <div class="tier-container">
+            <!-- BEGINNER -->
+            <div class="tier-card" data-aos="fade-up" data-aos-delay="100">
+                <div>
+                    <span class="level-label">LEVEL_01</span>
+                    <h3 class="tier-title">BEGINNER</h3>
+                </div>
+                <ul class="syllabus-list">
+                    <li><i class="fa-solid fa-code"></i> Intro to Unity & VR Setup</li>
+                    <li><i class="fa-solid fa-code"></i> Basic 3D Interaction Logic</li>
+                    <li><i class="fa-solid fa-code"></i> Building for Meta Quest 3</li>
+                    <li><i class="fa-solid fa-code"></i> Head-Tracking Foundations</li>
+                </ul>
             </div>
 
-            <div class="developer-profiles">
-                <div class="dev-profile-card" data-aos="fade-up" data-aos-delay="0">
-                    <div class="profile-frame"><img src="images/alyadp.jpg" alt="Alya Batrisyia"></div>
-                    <h3>ALYA BATRISYIA</h3>
+            <!-- INTERMEDIATE -->
+            <div class="tier-card active" data-aos="fade-up" data-aos-delay="200">
+                <div>
+                    <span class="level-label">LEVEL_02</span>
+                    <h3 class="tier-title">INTERMEDIATE</h3>
                 </div>
-                <div class="dev-profile-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="profile-frame"><img src="images/nabil.jpg" alt="Nabil Hakimi"></div>
-                    <h3>NABIL HAKIMI</h3>
+                <ul class="syllabus-list">
+                    <li><i class="fa-solid fa-bolt"></i> Advanced Kinetic Physics</li>
+                    <li><i class="fa-solid fa-bolt"></i> Spatial UI & Diegetic Menus</li>
+                    <li><i class="fa-solid fa-bolt"></i> Hand Tracking & Gestures</li>
+                    <li><i class="fa-solid fa-bolt"></i> Multiplayer Networking VR</li>
+                </ul>
+            </div>
+
+            <!-- ADVANCE -->
+            <div class="tier-card" data-aos="fade-up" data-aos-delay="300">
+                <div>
+                    <span class="level-label">LEVEL_03</span>
+                    <h3 class="tier-title">ADVANCE</h3>
                 </div>
-                <div class="dev-profile-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="profile-frame"><img src="images/limprofile.png" alt="Najmi Lim"></div>
-                    <h3>NAJMI LIM</h3>
-                </div>
-                <div class="dev-profile-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="profile-frame"><img src="images/zuldp.jpeg" alt="Zulhafif"></div>
-                    <h3>ZULHAFIF</h3>
-                </div>
+                <ul class="syllabus-list">
+                    <li><i class="fa-solid fa-microchip"></i> GPU Optimization & Profiling</li>
+                    <li><i class="fa-solid fa-microchip"></i> Eye-Tracking Integration</li>
+                    <li><i class="fa-solid fa-microchip"></i> Haptic Feedback Architecture</li>
+                    <li><i class="fa-solid fa-microchip"></i> Custom Shader Graph for XR</li>
+                </ul>
             </div>
         </div>
     </section>
 
-    <section class="section" id="about">
-        <span class="section-subtitle" data-aos="fade-up">Network Validated</span>
-        <div class="award-display" data-aos="fade-up">
-            <div style="border: 1px solid var(--award-gold); padding: 8px; background: #000;">
-                <img src="images/diceaward.jpg" style="width:100%; display: block;">
-            </div>
-            <div class="award-info">
-                <h2>DICE 3.0<br><span style="color:#fff">WINNER</span></h2>
-                <p style="margin: 15px 0; opacity: 0.8; font-size: 0.9rem;">Recognized for technical excellence in high-fidelity XR architecture and simulation logic.</p>
-                <a href="https://news.uthm.edu.my/en/2025/09/uthm-garnered-main-awards-at-dice-3-0/" target="_blank" style="color:var(--award-gold); text-decoration:none; font-family:'Orbitron'; font-size:0.65rem; letter-spacing: 1px;">[ VIEW_AWARD_LOG ]</a>
-            </div>
-        </div>
-
-        <div style="margin-top: 80px;">
-            <span class="section-subtitle" data-aos="fade-up" style="text-align: center;">Project Intelligence</span>
-            <div class="video-container" data-aos="zoom-in">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/RyI5T8c0ZgU" title="FLAIME VR TEASER" allowfullscreen></iframe>
+    <div class="voucher-container" id="voucher">
+        <div class="voucher-section" data-aos="fade-up">
+            <div class="voucher-text">
+                <h2>SECURE YOUR VOUCHER</h2>
+                <p>Early access enrollments are now open for the 2026 cycle. Request your unique digital voucher to lock in specialized pricing and curriculum priority.</p>
+                <div style="margin-top: 40px; font-family:'Orbitron'; font-size:0.7rem; color:var(--primary); letter-spacing: 2px;">
+                    <p><i class="fa-solid fa-shield-halved" style="margin-right: 10px;"></i> STATUS: SECURE CONNECTION</p>
                 </div>
             </div>
+            
+            <form class="voucher-form">
+                <input type="text" placeholder="FULL NAME" required>
+                <input type="email" placeholder="EMAIL ADDRESS" required>
+                <input type="tel" placeholder="PHONE NUMBER (+60)" required>
+                <button type="submit" class="btn-submit">INITIALIZE REQUEST</button>
+            </form>
         </div>
-    </section>
+    </div>
 
-    <section class="section" id="pipeline">
-        <span class="section-subtitle" data-aos="fade-up">Technical Stack</span>
-        <div class="pipe-card" data-aos="fade-right">
-            <div>
-                <h3>01 // GEOMETRY</h3>
-                <p>Industrial modeling precision. Optimized topology for zero-latency XR performance.</p>
-            </div>
-            <img src="images/blenderfvr.png">
-        </div>
-        <div class="pipe-card" data-aos="fade-left">
-            <div>
-                <h3>02 // INTERACTION</h3>
-                <p>Advanced physics synchronization and intelligent hazard response.</p>
-            </div>
-            <img src="images/unityfvr.png">
-        </div>
-    </section>
-
-    <section class="section" id="perspective">
-        <span class="section-subtitle" data-aos="fade-up">Operational Perspective</span>
-        <div class="gallery-grid">
-            <div class="gallery-item" data-aos="fade-up" data-aos-delay="0">
-                <img src="images/fvr1.png" alt="Perspective 1">
-            </div>
-            <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
-                <img src="images/fvr2.png" alt="Perspective 2">
-            </div>
-            <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
-                <img src="images/fvr3.png" alt="Perspective 3">
-            </div>
-            <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
-                <img src="images/fvr4.png" alt="Perspective 4">
-            </div>
-            <div class="gallery-item" data-aos="fade-up" data-aos-delay="0">
-                <img src="images/fvr5.png" alt="Perspective 1">
-            </div>
-            <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
-                <img src="images/fvr6.png" alt="Perspective 2">
-            </div>
-            <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
-                <img src="images/fvr7.png" alt="Perspective 3">
-            </div>
-            <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
-                <img src="images/fvr8.png" alt="Perspective 4">
-            </div>
-        </div>
-    </section>
-
-    <footer>&copy; 2026 DREAM VENTURE | FLAIMEVR TACTICAL PROTOCOL</footer>
+    <footer>
+        SSM: 003768939-D &copy; 2026 DREAM VENTURE | SYSTEM_CORE_V4.0.2
+    </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true, offset: 50 });
-
+        AOS.init({ duration: 1000, once: true });
+        
+        // Canvas Particle Logic
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
 
         class Particle {
-            constructor() { this.reset(); }
-            reset() {
+            constructor() {
+                this.init();
+            }
+            init() {
                 this.x = Math.random() * canvas.width;
-                this.y = canvas.height + 20;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.vy = -Math.random() * 1.0 - 0.5;
+                this.y = Math.random() * canvas.height;
                 this.vx = (Math.random() - 0.5) * 0.4;
-                this.alpha = Math.random() * 0.5 + 0.1;
-                this.life = Math.random() * 0.003 + 0.001;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.size = Math.random() * 1.5;
             }
             update() {
-                this.y += this.vy;
-                this.x += this.vx;
-                this.alpha -= this.life;
-                if(this.alpha <= 0) this.reset();
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.init();
             }
             draw() {
-                ctx.fillStyle = `rgba(243, 163, 42, ${this.alpha})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.fillStyle = 'rgba(243, 163, 42, 0.15)';
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill();
             }
         }
 
-        function init() {
+        function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            particles = Array.from({length: 80}, () => new Particle());
+            particles = [];
+            for(let i=0; i<80; i++) particles.push(new Particle());
         }
 
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0,0,canvas.width, canvas.height);
             particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animate);
         }
 
-        window.addEventListener('resize', init);
-        init(); animate();
+        window.addEventListener('resize', resize);
+        resize(); animate();
     </script>
 </body>
 </html>
