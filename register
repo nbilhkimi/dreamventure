@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Dream Venture Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@200;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f3a32a; 
+            --bg: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: var(--bg); 
+            color: #fff; 
+            font-family: 'Poppins', sans-serif; 
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Animated Background Particles */
+        #canvas-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1a1208 0%, #000 100%);
+        }
+
+        .reg-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 60px 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            border-radius: 4px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .reg-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 100px; height: 2px;
+            background: var(--primary);
+        }
+
+        .logo-area {
+            font-family: 'Orbitron';
+            color: var(--primary);
+            font-size: 0.7rem;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        h1 {
+            font-family: 'Orbitron';
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        p {
+            font-weight: 200;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            opacity: 0.7;
+            margin-bottom: 40px;
+        }
+
+        .btn-portal {
+            display: inline-block;
+            background: var(--primary);
+            color: #000;
+            text-decoration: none;
+            font-family: 'Orbitron';
+            font-weight: 900;
+            padding: 20px 40px;
+            width: 100%;
+            letter-spacing: 2px;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-portal:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(243, 163, 42, 0.3);
+            letter-spacing: 4px;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            font-size: 0.6rem;
+            font-family: 'Orbitron';
+            opacity: 0.4;
+            letter-spacing: 2px;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.8rem;
+            opacity: 0.5;
+            transition: 0.3s;
+        }
+        .back-link:hover { opacity: 1; color: var(--primary); }
+
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+
+    <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> BACK</a>
+
+    <div class="reg-card" data-aos="zoom-in">
+        <div class="logo-area">DREAM VENTURE ACADEMY</div>
+        <h1>SECURE YOUR SLOT</h1>
+        <p>You are about to enter the official 2026 Training Enrollment portal. Please ensure all architectural credentials and contact data are accurate.</p>
+        
+        <!-- LINK TO YOUR JOTFORM -->
+        <a href="https://form.jotform.com/261253405509049" target="_blank" class="btn-portal">
+            OPEN SECURE FORM <i class="fa-solid fa-arrow-up-right-from-square" style="margin-left: 10px; font-size: 0.8rem;"></i>
+        </a>
+
+        <div class="footer-note">
+            <i class="fa-solid fa-lock"></i> SSL ENCRYPTED ENROLLMENT
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000 });
+
+        // Simple starfield effect to match your main page vibe
+        const container = document.getElementById('canvas-container');
+        for(let i=0; i<50; i++) {
+            const star = document.createElement('div');
+            star.style.position = 'absolute';
+            star.style.width = '2px';
+            star.style.height = '2px';
+            star.style.background = 'rgba(243, 163, 42, 0.3)';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.borderRadius = '50%';
+            container.appendChild(star);
+        }
+    </script>
+</body>
+</html>
