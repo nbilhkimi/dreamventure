@@ -10,14 +10,12 @@
     <style>
         :root {
             --primary: #f3a32a; 
-            /* Changed to Dark Grey */
             --bg: #1a1a1a;
             --darker: #141414;
             --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.08);
         }
 
-        /* Global Fade-In Animation */
         @keyframes globalFade {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -31,6 +29,23 @@
             font-family: 'Poppins', sans-serif; 
             overflow-x: hidden;
             animation: globalFade 1.2s ease-out forwards;
+            position: relative;
+        }
+
+        /* --- Particles Background --- */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        nav, header, section, footer {
+            position: relative;
+            z-index: 1;
         }
 
         /* --- Navigation --- */
@@ -39,7 +54,8 @@
             justify-content: space-between;
             align-items: center;
             padding: 30px 8%;
-            background: transparent;
+            background: rgba(26, 26, 26, 0.5);
+            backdrop-filter: blur(5px);
         }
         .logo { font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; }
         .nav-links { display: flex; gap: 30px; list-style: none; }
@@ -108,7 +124,6 @@
             max-width: 500px;
         }
         
-        /* General Button Style */
         .btn-action {
             display: inline-block;
             background: var(--primary);
@@ -149,31 +164,41 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 40px;
-            text-align: center;
         }
         .tier-item h3 {
-            font-family: 'Poppins';
+            font-family: 'Orbitron';
             font-weight: 400;
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-align: center;
         }
         .tier-card {
             background: var(--darker);
             border: 1px solid var(--glass-border);
-            padding: 40px 20px;
+            padding: 40px 30px;
             border-radius: 4px;
             transition: 0.4s;
             height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        .tier-card:hover { border-color: var(--primary); }
-        .tier-card ul { list-style: none; text-align: left; padding: 0 20px; }
-        .tier-card li { font-size: 0.85rem; margin-bottom: 15px; opacity: 0.7; font-weight: 200; }
-        .tier-card i { color: var(--primary); margin-right: 10px; font-size: 0.7rem; }
+        .tier-card:hover { 
+            border-color: var(--primary);
+            background: rgba(243, 163, 42, 0.02);
+        }
+        .tier-card p {
+            font-size: 0.85rem;
+            line-height: 1.8;
+            opacity: 0.8;
+            font-weight: 200;
+            text-align: justify;
+        }
 
-        /* --- Redesigned Registration Section --- */
+        /* --- Registration Section --- */
         .registration-cta {
-            background: var(--darker);
+            background: rgba(20, 20, 20, 0.8);
             padding: 100px 8%;
             text-align: center;
             border-top: 1px solid var(--glass-border);
@@ -205,15 +230,14 @@
 </head>
 <body>
 
+    <div id="particles-js"></div>
+
     <nav>
         <div class="logo">DREAM VENTURE</div>
         <ul class="nav-links">
-            <!-- Home button now points to index.html -->
             <li><a href="index.html">Home</a></li>
             <li><a href="#">About Us</a></li>
             <li><a href="#levels">Courses</a></li>
-            <li><a href="#">Training Calendar</a></li>
-            <li><a href="#">FAQ</a></li>
         </ul>
     </nav>
 
@@ -226,58 +250,50 @@
         <div class="hero-content">
             <h1 data-aos="fade-left">VR COURSES & CERTIFICATIONS</h1>
             <p data-aos="fade-left" data-aos-delay="100">
-                Join our 2026 academic cycle and master spatial computing. We provide industry-standard training for architects and digital designers.
+                Master the future of spatial design through our professional Virtual Reality training tracks.
             </p>
-            <!-- Direct to registration.html -->
             <a href="registration.html" class="btn-action">REGISTER NOW</a>
         </div>
     </header>
 
     <section class="courses-section" id="levels">
         <div class="course-header-bar">
-            <h2>VR ARCHITECTURE COURSES (5 DAYS)</h2>
+            <h2>PROGRAM OUTCOMES</h2>
         </div>
 
         <div class="tier-grid">
+            <!-- Outcome 1 -->
             <div class="tier-item" data-aos="fade-up">
-                <h3>VR Level 1 - Beginner</h3>
+                <h3>LEVEL 1: FOUNDATIONS</h3>
                 <div class="tier-card">
-                    <ul>
-                        <li><i class="fa-solid fa-check"></i> Unity & VR Setup</li>
-                        <li><i class="fa-solid fa-check"></i> 3D Interaction Logic</li>
-                        <li><i class="fa-solid fa-check"></i> Meta Quest 3 Dev</li>
-                        <li><i class="fa-solid fa-check"></i> Tracking Foundations</li>
-                    </ul>
+                    <p>
+                        Transition from traditional 3D space to immersive environments. Students will master the Unity-to-Quest pipeline, successfully deploying a fully navigable architectural walkthrough with basic interactive triggers and optimized spatial scale.
+                    </p>
                 </div>
             </div>
 
+            <!-- Outcome 2 -->
             <div class="tier-item" data-aos="fade-up" data-aos-delay="100">
-                <h3>VR Level 2 - Intermediate</h3>
+                <h3>LEVEL 2: INTERACTIVITY</h3>
                 <div class="tier-card">
-                    <ul>
-                        <li><i class="fa-solid fa-check"></i> Kinetic Physics</li>
-                        <li><i class="fa-solid fa-check"></i> Diegetic UI Design</li>
-                        <li><i class="fa-solid fa-check"></i> Gesture Recognition</li>
-                        <li><i class="fa-solid fa-check"></i> VR Networking</li>
-                    </ul>
+                    <p>
+                        Elevate static scenes into living simulations. You will develop complex interaction systems including physics-based object manipulation and diegetic UI, allowing users to modify materials, lighting, and layouts in real-time within the VR space.
+                    </p>
                 </div>
             </div>
 
+            <!-- Outcome 3 -->
             <div class="tier-item" data-aos="fade-up" data-aos-delay="200">
-                <h3>VR Level 3 - Advanced</h3>
+                <h3>LEVEL 3: OPTIMIZATION</h3>
                 <div class="tier-card">
-                    <ul>
-                        <li><i class="fa-solid fa-check"></i> GPU Optimization</li>
-                        <li><i class="fa-solid fa-check"></i> Eye-Tracking Integration</li>
-                        <li><i class="fa-solid fa-check"></i> Haptic Feedback</li>
-                        <li><i class="fa-solid fa-check"></i> Custom XR Shaders</li>
-                    </ul>
+                    <p>
+                        Bridge the gap between high-end visual fidelity and standalone performance. Outcomes focus on advanced GPU profiling, custom shader development, and eye-tracking integration to create professional-grade, lag-free enterprise VR applications.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- New Registration Section -->
     <section class="registration-cta" id="register">
         <div class="cta-content" data-aos="zoom-in">
             <h2>START YOUR JOURNEY</h2>
@@ -290,9 +306,30 @@
         SSM: 003768939-D &copy; 2026 DREAM VENTURE ACADEMY | SYSTEM_V4.1
     </footer>
 
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1000, once: true });
+
+        /* Particles Config */
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#f3a32a" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.2, "random": false },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#f3a32a", "opacity": 0.1, "width": 1 },
+                "move": { "enable": true, "speed": 1.5, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false } },
+                "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } } }
+            },
+            "retina_detect": true
+        });
     </script>
 </body>
 </html>
