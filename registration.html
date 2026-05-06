@@ -10,161 +10,138 @@
     <style>
         :root {
             --primary: #f3a32a; 
-            --bg: #050505;
+            --bg: #1a1a1a;
+            --darker: #141414;
             --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.08);
         }
 
+        @keyframes globalFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body { 
             background: var(--bg); 
             color: #fff; 
             font-family: 'Poppins', sans-serif; 
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
+            animation: globalFade 1.2s ease-out forwards;
+        }
+
+        /* --- Simple Nav for Registration Page --- */
+        nav {
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .back-btn {
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Orbitron';
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            opacity: 0.6;
+        }
+        .back-btn:hover { opacity: 1; color: var(--primary); }
+
+        /* --- Form Container --- */
+        .registration-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 5%;
         }
 
-        /* Animated Background Particles */
-        #canvas-container {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at center, #1a1208 0%, #000 100%);
-        }
-
-        .reg-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            padding: 60px 40px;
-            max-width: 500px;
-            width: 90%;
+        .header-area {
             text-align: center;
-            border-radius: 4px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            position: relative;
+            margin-bottom: 40px;
+            max-width: 600px;
         }
-
-        .reg-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 100px; height: 2px;
-            background: var(--primary);
-        }
-
-        .logo-area {
+        .header-area h1 {
             font-family: 'Orbitron';
             color: var(--primary);
-            font-size: 0.7rem;
-            letter-spacing: 5px;
-            margin-bottom: 20px;
-            opacity: 0.8;
-        }
-
-        h1 {
-            font-family: 'Orbitron';
             font-size: 2rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            color: #fff;
-        }
-
-        p {
-            font-weight: 200;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            opacity: 0.7;
-            margin-bottom: 40px;
-        }
-
-        .btn-portal {
-            display: inline-block;
-            background: var(--primary);
-            color: #000;
-            text-decoration: none;
-            font-family: 'Orbitron';
-            font-weight: 900;
-            padding: 20px 40px;
-            width: 100%;
-            letter-spacing: 2px;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-portal:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(243, 163, 42, 0.3);
             letter-spacing: 4px;
+            margin-bottom: 15px;
+        }
+        .header-area p {
+            font-weight: 200;
+            opacity: 0.7;
+            font-size: 0.9rem;
         }
 
-        .footer-note {
-            margin-top: 30px;
-            font-size: 0.6rem;
-            font-family: 'Orbitron';
-            opacity: 0.4;
+        /* --- The Iframe Wrapper --- */
+        .form-wrapper {
+            width: 100%;
+            max-width: 800px;
+            background: #fff; /* Jotforms usually look best on white, or adjust Jotform theme to transparent */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border);
+            min-height: 800px; /* Adjust based on your form height */
+        }
+
+        iframe {
+            width: 100%;
+            height: 1000px; /* Matches the content height of your form */
+            border: none;
+        }
+
+        footer { 
+            text-align: center; 
+            padding: 40px; 
+            opacity: 0.4; 
+            font-size: 0.6rem; 
+            font-family: 'Orbitron'; 
             letter-spacing: 2px;
         }
-
-        .back-link {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.8rem;
-            opacity: 0.5;
-            transition: 0.3s;
-        }
-        .back-link:hover { opacity: 1; color: var(--primary); }
-
     </style>
 </head>
 <body>
 
-    <div id="canvas-container"></div>
+    <nav>
+        <div style="font-family:'Orbitron'; font-weight:900; color:var(--primary);">DREAM VENTURE</div>
+        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> RETURN HOME</a>
+    </nav>
 
-    <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> BACK</a>
-
-    <div class="reg-card" data-aos="zoom-in">
-        <div class="logo-area">DREAM VENTURE ACADEMY</div>
-        <h1>SECURE YOUR SLOT</h1>
-        <p>You are about to enter the official 2026 Training Enrollment portal. Please ensure all architectural credentials and contact data are accurate.</p>
-        
-        <!-- LINK TO YOUR JOTFORM -->
-        <a href="https://form.jotform.com/261253405509049" target="_blank" class="btn-portal">
-            OPEN SECURE FORM <i class="fa-solid fa-arrow-up-right-from-square" style="margin-left: 10px; font-size: 0.8rem;"></i>
-        </a>
-
-        <div class="footer-note">
-            <i class="fa-solid fa-lock"></i> SSL ENCRYPTED ENROLLMENT
+    <main class="registration-container">
+        <div class="header-area" data-aos="fade-down">
+            <h1>ENROLLMENT PORTAL</h1>
+            <p>Please complete the secure 2026 registration protocol below to finalize your application.</p>
         </div>
-    </div>
+
+        <div class="form-wrapper" data-aos="fade-up">
+            <!-- EMBEDDED JOTFORM -->
+            <iframe
+                id="JotFormIFrame-261253405509049"
+                title="Registration Form"
+                onload="window.parent.scrollTo(0,0)"
+                allowtransparency="true"
+                allow="geolocation; microphone; camera; fullscreen"
+                src="https://form.jotform.com/261253405509049"
+                frameborder="0"
+                scrolling="yes">
+            </iframe>
+        </div>
+    </main>
+
+    <footer>
+        SSM: 003768939-D &copy; 2026 DREAM VENTURE ACADEMY
+    </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000 });
-
-        // Simple starfield effect to match your main page vibe
-        const container = document.getElementById('canvas-container');
-        for(let i=0; i<50; i++) {
-            const star = document.createElement('div');
-            star.style.position = 'absolute';
-            star.style.width = '2px';
-            star.style.height = '2px';
-            star.style.background = 'rgba(243, 163, 42, 0.3)';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.borderRadius = '50%';
-            container.appendChild(star);
-        }
+        AOS.init({ duration: 1000, once: true });
     </script>
 </body>
 </html>
